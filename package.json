@@ -6,7 +6,8 @@
   "author": "codwerk",
   "license": "MIT",
   "devDependencies": {
-    "bulma": "^0.7.4"
+    "bulma": "^0.7.4",
+    "gulp-clean-css": "^4.0.0"
   },
   "dependencies": {
     "browser-sync": "^2.26.3",

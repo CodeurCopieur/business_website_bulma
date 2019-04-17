@@ -19,6 +19,13 @@ const paths = {
     }
 }
 
+const options = {
+    fontsDir: 'googlefonts/',
+    cssDir: 'googlecss/',
+    cssFilename: 'myGoogleFonts.css',
+  relativePaths: true
+};
+
 // supprimer le dossier assets
 const clean = () => del([paths.css.dest]);
 
@@ -37,7 +44,7 @@ function css(){
 
 function fonts(){
     return gulp.src(paths.googleWebFonts.src)
-    .pipe(googleWebFonts())
+    .pipe(googleWebFonts(options))
     .pipe(gulp.dest(paths.googleWebFonts.dest))
 
 }

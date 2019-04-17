@@ -9,6 +9,7 @@
     "browser-sync": "^2.26.3",
     "bulma": "^0.7.4",
     "del": "^4.1.0",
+    "font-awesome": "^4.7.0",
     "gulp": "^4.0.0",
     "gulp-clean-css": "^4.0.0",
     "gulp-concat": "^2.6.1",

@@ -6,6 +6,10 @@ const gulp = require('gulp');
       googleWebFonts = require('gulp-google-webfonts');
 
 const paths = {
+    fonts: {
+        src: ['node_modules/font-awesome/fonts/fontawesome-webfont.*'],
+        dest: 'build/fonts-awesome'
+    },
     googleWebFonts: {
         src: ['src/fonts/fonts.list'],
         dest: 'build/assets/fonts'

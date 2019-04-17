@@ -3,10 +3,15 @@ const gulp = require('gulp');
       concat = require('gulp-concat');
       del = require('del');
       browserSync = require('browser-sync');
+      googleWebFonts = require('gulp-google-webfonts');
 
 const paths = {
+    googleWebFonts: {
+        src: ['src/fonts/fonts.list'],
+        dest: 'build/assets/fonts'
+    },
     css : {
-        src : ['node_modules/bulma/bulma.sass'],
+        src : ['node_modules/bulma/bulma.sass', 'src/scss/index.scss'],
         dest : 'build/assets/css'
     },
     html : {
@@ -30,6 +35,13 @@ function css(){
     .pipe(browserSync.stream())
 }
 
+function fonts(){
+    return gulp.src(paths.googleWebFonts.src)
+    .pipe(googleWebFonts())
+    .pipe(gulp.dest(paths.googleWebFonts.dest))
+
+}
+
 function watch(){
     browserSync.init({
         server: {
@@ -39,6 +51,7 @@ function watch(){
         port: 8001
     });
     gulp.watch(paths.css.src, css);
+    gulp.watch(paths.googleWebFonts.src, fonts);
     gulp.watch(paths.html.dest).on('change', browserSync.reload);
 
 }
@@ -47,6 +60,7 @@ const build = gulp.series(clean, gulp.parallel(css, watch));
 
 exports.clean = clean;
 exports.css = css;
+exports.fonts = fonts;
 exports.build = build;
 exports.watch = watch;
 

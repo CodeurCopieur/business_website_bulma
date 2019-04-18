@@ -7,8 +7,8 @@ const gulp = require('gulp');
 
 const paths = {
     fonts: {
-        src: ['node_modules/font-awesome/fonts/fontawesome-webfont.*'],
-        dest: 'build/fonts-awesome'
+        src: ['node_modules/@fortawesome/fontawesome-free/css/all.min.css'],
+        dest: 'build/assets/fonts'
     },
     googleWebFonts: {
         src: ['src/fonts/fonts.list'],
@@ -47,11 +47,17 @@ function css(){
 }
 
 function fonts(){
+    return gulp.src(paths.fonts.src)
+    .pipe(gulp.dest(paths.fonts.dest))
+}
+
+function googlefonts(){
     return gulp.src(paths.googleWebFonts.src)
     .pipe(googleWebFonts(options))
     .pipe(gulp.dest(paths.googleWebFonts.dest))
 
 }
+
 
 function watch(){
     browserSync.init({
@@ -62,15 +68,17 @@ function watch(){
         port: 8001
     });
     gulp.watch(paths.css.src, css);
-    gulp.watch(paths.googleWebFonts.src, fonts);
+    gulp.watch(paths.googleWebFonts.src, googlefonts);
+    gulp.watch(paths.fonts.src, fonts);
     gulp.watch(paths.html.dest).on('change', browserSync.reload);
 
 }
 
-const build = gulp.series(clean, gulp.parallel(css, watch));
+const build = gulp.series(clean, gulp.parallel(css, fonts, googlefonts, watch));
 
 exports.clean = clean;
 exports.css = css;
+exports.googlefonts = googlefonts;
 exports.fonts = fonts;
 exports.build = build;
 exports.watch = watch;

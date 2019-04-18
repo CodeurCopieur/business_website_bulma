@@ -27,7 +27,7 @@ const options = {
     fontsDir: 'googlefonts/',
     cssDir: 'googlecss/',
     cssFilename: 'myGoogleFonts.css',
-  relativePaths: true
+    relativePaths: true
 };
 
 // supprimer le dossier assets

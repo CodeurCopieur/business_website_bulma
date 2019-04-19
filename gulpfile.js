@@ -4,8 +4,14 @@ const gulp = require('gulp');
       del = require('del');
       browserSync = require('browser-sync');
       googleWebFonts = require('gulp-google-webfonts');
+      uglify = require('gulp-uglify');
+
 
 const paths = {
+    scripts: {
+        src: ['src/js/**/*.js'],
+        dest: 'build/assets/js' 
+    },
     fonts: {
         src: ['node_modules/@fortawesome/fontawesome-free/css/all.min.css'],
         dest: 'build/assets/fonts'
@@ -15,7 +21,7 @@ const paths = {
         dest: 'build/assets/fonts'
     },
     css : {
-        src : ['node_modules/bulma/bulma.sass', 'src/scss/index.scss'],
+        src : ['node_modules/bulma/bulma.sass', 'src/scss/**/*.scss'],
         dest : 'build/assets/css'
     },
     html : {
@@ -46,6 +52,17 @@ function css(){
     .pipe(browserSync.stream())
 }
 
+function scripts(){
+    //où est mon fichier js
+    return gulp.src(paths.scripts.src)
+    //va nous permettre de compresser notre code Javascript
+    .pipe(uglify())
+    //Où puis-je sauvegarder le js compilé ?
+    .pipe(gulp.dest(paths.scripts.dest))
+    //transférer les modifications sur tous les navigateurs
+    .pipe(browserSync.stream())
+}
+
 function fonts(){
     return gulp.src(paths.fonts.src)
     .pipe(gulp.dest(paths.fonts.dest))
@@ -58,7 +75,6 @@ function googlefonts(){
 
 }
 
-
 function watch(){
     browserSync.init({
         server: {
@@ -68,18 +84,20 @@ function watch(){
         port: 8001
     });
     gulp.watch(paths.css.src, css);
+    gulp.watch(paths.scripts.src, scripts);
     gulp.watch(paths.googleWebFonts.src, googlefonts);
     gulp.watch(paths.fonts.src, fonts);
     gulp.watch(paths.html.dest).on('change', browserSync.reload);
 
 }
 
-const build = gulp.series(clean, gulp.parallel(css, fonts, googlefonts, watch));
+const build = gulp.series(clean, gulp.parallel(css, scripts, fonts, googlefonts, watch));
 
 exports.clean = clean;
 exports.css = css;
 exports.googlefonts = googlefonts;
 exports.fonts = fonts;
+exports.scripts = scripts;
 exports.build = build;
 exports.watch = watch;
 

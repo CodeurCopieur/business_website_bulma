@@ -5,7 +5,6 @@ const gulp = require('gulp');
       browserSync = require('browser-sync');
       googleWebFonts = require('gulp-google-webfonts');
       uglify = require('gulp-uglify');
-      minify = require('gulp-clean-css');
 
 
 const paths = {
@@ -53,21 +52,6 @@ function css(){
     .pipe(browserSync.stream())
 }
 
-const minifier = () =>
-    //où est mon fichier scss
-     gulp.src(paths.css.src)
-    //passer ce fichier par le compilateur sass
-    .pipe(sass())
-    //va nous permettre de compresser nos styles CSS
-    .pipe(minify())
-    //permet de concaténer tout notre code source dans un seul fichier
-    .pipe(concat('index.min.css'))
-    //Où puis-je sauvegarder le scss compilé ?
-    .pipe(gulp.dest(paths.css.dest))
-    //transférer les modifications sur tous les navigateurs
-    .pipe(browserSync.stream())
-
-
 function scripts(){
     //où est mon fichier js
     return gulp.src(paths.scripts.src)
@@ -107,11 +91,10 @@ function watch(){
 
 }
 
-const build = gulp.series(clean, gulp.parallel(css, minifier, scripts, fonts, googlefonts, watch));
+const build = gulp.series(clean, gulp.parallel(css, scripts, fonts, googlefonts, watch));
 
 exports.clean = clean;
 exports.css = css;
-exports.minifier = minifier;
 exports.googlefonts = googlefonts;
 exports.fonts = fonts;
 exports.scripts = scripts;
